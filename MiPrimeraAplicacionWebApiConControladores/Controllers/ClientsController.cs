@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MiPrimeraAplicacionWebApiConControladores.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +9,28 @@ namespace MiPrimeraAplicacionWebApiConControladores.Controllers
     [ApiController]
     public class ClientsController : ControllerBase
     {
-        // GET: api/<ClientsController>
+
+        static List<Client> clients = new List<Client>();
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Client> Get()
         {
-            return new string[] { "value1", "value2" };
+            return clients;
         }
 
-        // GET api/<ClientsController>/5
+
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Client Get(int id)
         {
-            return "value";
+            var client = clients.FirstOrDefault(c => c.Id == id);
+            return client;
         }
 
-        // POST api/<ClientsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] Client client)
         {
-        }
-
-        // PUT api/<ClientsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ClientsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            clients.Add(client);
+            return Ok();
         }
     }
 }
